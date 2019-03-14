@@ -5,21 +5,23 @@
 
 This sample tells you how to trigger an SVF->OTG conversion, and then shows you how to view the OTG with ForgeViewer.  This repo is a fork of the [Learn Forge](http://learnforge.autodesk.io) nodejs viewhub tutorial.
 
+<img alt="OTG-viewer" src="https://user-images.githubusercontent.com/440241/54336099-4a224580-45e8-11e9-9691-88a060d38d11.png">
+
 
 ## Part 1 - Converting
 
 Steps
 
-1. steal a BEARER token from A360 (use A360 or use the nodejs server provided)
+1. steal a BEARER token from A360 (run the nodejs server in part2 in the debug console after clicking on an design file)
 
 Now inside POSTMAN...
 
 1. import the script (provided)
-4. feed the token into {{OTG_TOKEN}} variable
-5. find a URN SVF you want to convert
-6. run the "POST OTG-job"
-7. now use "GET manifest" and look for OTG section and the progress %
- - once it reaches 100%, your done !
+4. feed the token into `{{OTG_TOKEN}}` variable
+5. find a URN SVF you want to convert and add it to the POSTMAN variable `{{OTG_URN}}` (again, use the node server and click on your 3D design file and look in chrome debug console)
+6. run the `POST OTG-job` to trigger the SVF->OTG converter
+7. now run `GET manifest` in POSTMAN, and in the JSON response, look for OTG `progress`
+ - once `progress` reaches 100%, you're done !  The SVF has been converted to OTG.  Note, for BIM360 hosted files, this conversion process is automatically triggered when a file changes.
 
 ## Part 2 - Viewing
 
@@ -53,6 +55,11 @@ open "http://b360.autodesk.com:3000/index.html"
 
 
 # Further Reading
+
+Autodesk University 2018: [Creating Offline Workflows with ForgeViewer](https://www.autodesk.com/autodesk-university/class/Creating-Flexible-Offline-Workflows-Using-Autodesk-Forge-2018)
+
+![test](https://user-images.githubusercontent.com/440241/54336653-ded97300-45e9-11e9-8533-197b97460a39.jpg)
+
 
 Documentation:
 
