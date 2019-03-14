@@ -17,16 +17,44 @@ Steps
 Now inside POSTMAN...
 
 1. import the script (provided)
-4. feed the token into `{{OTG_TOKEN}}` variable
+4. feed the token into `{{OTG_TOKEN}}` POSTMAN variable
 5. find a URN SVF you want to convert and add it to the POSTMAN variable `{{OTG_URN}}` (again, use the node server and click on your 3D design file and look in chrome debug console)
-6. run the `POST OTG-job` to trigger the SVF->OTG converter
-7. now run `GET manifest` in POSTMAN, and in the JSON response, look for OTG `progress`
- - once `progress` reaches 100%, you're done !  The SVF has been converted to OTG.  Note, for BIM360 hosted files, this conversion process is automatically triggered when a file changes.
+
+6. go to `POST job OTG` and add your project_id (taken from your hub, also found in the nodejs network log) put it into the header (see screenshot)
+<img alt="POSTjobOTG" src="https://user-images.githubusercontent.com/440241/54336971-c4ec6000-45ea-11e9-944e-b30cee2ccc6e.png">
+
+6. now, run the `POST job OTG` to trigger the SVF->OTG converter
+
+You'll get...
+
+```
+{
+    "version": 1,
+    "type": "convertOtg",
+    "request_id": "9cfcf6ad-5b1c-46da-b926-28b5fa62092b",
+    "received_at": "2019-03-12T21:13:45.335Z",
+    "status": "pending",
+    "success": "0%",
+    "progress": "0%"
+}
+```
+
+now to check for progress...
+
+7. run `GET manifest` in POSTMAN, and in the JSON response, look for OTG `progress`
+
+<img alt="GETmanifestOTG" src="https://user-images.githubusercontent.com/440241/54336970-c158d900-45ea-11e9-8100-d578eba1da42.png">
+
+ - once `progress` reaches 100%, you're done !  The SVF has been converted to OTG.  
+
+ > Note, for BIM360 hosted files, this conversion process is automatically triggered when a file changes.
 
 ## Part 2 - Viewing
 
+> you'll need this to bypass the Autodesk white-list, for the time being (oddly enough, Chrome browsers allow `localhost:3000`, but safari doesn't )...
+
 1. in your `/etc/HOSTS` file, add `127.0.0.1 b360.autodesk.com`
-> you'll need this to bypass the Autodesk white-list
+
 
 2. create a quick `start.sh` script with your Forge App clientID and secret, like this:
 
@@ -48,11 +76,11 @@ open "http://b360.autodesk.com:3000/index.html"
 3. click login and sign in to your A360 account
 4. navigate to your SVF file
 5. open it, as normal.
-6. the OTG version should now load.  You can check by looking for a few websocket connections, in chrome network debug console.
+6. the OTG version should now load.  
 
 > That's it ! 
 
-
+> You can check that OTG is loading in ForgeViewer, by looking for a websocket connections.  OTG currently uses multiple websockets to load mesh bits.
 
 # Further Reading
 

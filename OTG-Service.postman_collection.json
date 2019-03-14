@@ -1,0 +1,196 @@
+{
+	"info": {
+		"_postman_id": "c909eedc-4be9-420f-bcf0-54640d6ea937",
+		"name": "OTG-Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authenticate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c4cdb0e6-f7fe-4dec-96f6-865bb763a364",
+						"exec": [
+							"try {",
+							"    var jsonData = JSON.parse(responseBody);",
+							"    postman.setEnvironmentVariable(\"TOKEN\", jsonData.access_token);",
+							"    tests[\"Access token request\"] = true;",
+							"} catch (ex) {",
+							"    tests[\"Access token request\"] = false;",
+							"    ",
+							"     // Stop workflow",
+							"    postman.setNextRequest(null);",
+							"}",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "{{client_id}}",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "{{client_secret}}",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "data:read data:write data:create bucket:read bucket:create",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://developer.api.autodesk.com/authentication/v1/authenticate",
+					"protocol": "https",
+					"host": [
+						"developer",
+						"api",
+						"autodesk",
+						"com"
+					],
+					"path": [
+						"authentication",
+						"v1",
+						"authenticate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Job OTG",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ac9900aa-acef-4cca-a746-f02b4b49deb9",
+						"exec": [
+							"if ([200, 201].indexOf(responseCode.code) === -1) {",
+							"    // If the request failed no point testing the other calls",
+							"    tests[\"Could not start translation\"] = false;",
+							"} "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{OTG_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"urn\": \"{{OTG_URN}}\",\n \"account_id\":\"123\",\n \"project_id\":\"a.123\"\n\"force_conversion\": true\n}"
+				},
+				"url": {
+					"raw": "https://otg.autodesk.com/modeldata",
+					"protocol": "https",
+					"host": [
+						"otg",
+						"autodesk",
+						"com"
+					],
+					"path": [
+						"modeldata"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET manifest OTG",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ac9900aa-acef-4cca-a746-f02b4b49deb9",
+						"exec": [
+							"if ([200, 201].indexOf(responseCode.code) === -1) {",
+							"    // If the request failed no point testing the other calls",
+							"    tests[\"Could not start translation\"] = false;",
+							"} "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{OTG_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"urn\": \"dXJuOmFkc2sud2lwcHJvZDpmcy5maWxlOnZmLm45VVdrMkRJU2k2WW11Z2FXZ2oyTWc_dmVyc2lvbj0x\",\n        \"force_conversion\": false\n}"
+				},
+				"url": {
+					"raw": "https://otg.autodesk.com/modeldata/manifest/{{OTG_URN}}",
+					"protocol": "https",
+					"host": [
+						"otg",
+						"autodesk",
+						"com"
+					],
+					"path": [
+						"modeldata",
+						"manifest",
+						"{{OTG_URN}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
