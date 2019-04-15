@@ -10,8 +10,10 @@ This sample tells you how to trigger an SVF->OTG conversion, and then shows you 
 
 
 ### OTG de-duplication:
-OTG uses a de-duplication process of meshes.  So many walls become a single cube mesh with many transforms, that stretch, rotate and position the cube into place.  This improves storage.  It also improves render performance, because a single cube can be instanced using GPU instancing, thus drawing signicantly more triangles per frame.
-Similar to walls, the same thing happens for cylindrical primitives like rebar or hand-rails.
+OTG uses a de-duplication process of meshes.  So think of a wall as a cube.  And many walls are just a cube that is squished and rotated into place.   So imagine all walls of a building represented by a single cube with many transforms.   This saves storage space (data transfer).  BUT....
+It also significantly improves render performance, with GPU instancing.  You send a single cube mesh to the GPU and thousands of tiny transforms as a single draw-call, thus drawing signicantly more triangles per frame.
+
+Similar to the cube primative for walls, the same thing happens for Re-Bar and hand-rails, it's mostly de-duplication of a 'cylindrical primitive'.
 
 ### OTG precision:
 OTG (centered at the origin) can theoretically measure a 20km stretch at 4.6 micron precision, which is just equivalent to the limit of 32 bit float precision.
