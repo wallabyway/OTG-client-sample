@@ -26,6 +26,9 @@ Linear designs or geospatial models are yet to be validated with OTG.  We are lo
 
 UPDATE: added a 'paper plane' button.  Open an existing SVF design, then click 'paper plane' button, to trigger an OTG conversion.  Wait a few minutes, then try opening the file again. 
 
+<img width="400" alt="convertbutton" src="https://user-images.githubusercontent.com/440241/56311024-ed8fda00-6101-11e9-9a22-eb205eedd5cf.png">
+
+
 Steps
 
 1. steal a BEARER token from A360 (run the nodejs server in part2 in the debug console after clicking on an design file)
