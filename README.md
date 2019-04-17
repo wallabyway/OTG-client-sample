@@ -1,11 +1,25 @@
 # Load OTG with ForgeViewer sample
 
 
+
 ## Intro
 
 This sample tells you how to trigger an SVF->OTG conversion, and then shows you how to view the OTG with ForgeViewer.  This repo is a fork of the [Learn Forge](http://learnforge.autodesk.io) nodejs viewhub tutorial.
 
 <img alt="OTG-viewer" src="https://user-images.githubusercontent.com/440241/54336099-4a224580-45e8-11e9-9691-88a060d38d11.png">
+
+
+### OTG de-duplication:
+OTG uses a de-duplication process of meshes.  So think of a wall as a cube.  And many walls are just a cube that is squished and rotated into place.   So imagine all walls of a building represented by a single cube with many transforms.   This saves storage space (data transfer).  BUT....
+It also significantly improves render performance, with GPU instancing.  You send a single cube mesh to the GPU and thousands of tiny transforms as a single draw-call, thus drawing signicantly more triangles per frame.
+
+Similar to the cube primative for walls, the same thing happens for Re-Bar and hand-rails, it's mostly de-duplication of a 'cylindrical primitive'.
+
+### OTG precision:
+OTG (centered at the origin) can theoretically measure a 20km stretch at 4.6 micron precision, which is just equivalent to the limit of 32 bit float precision.
+Currently, OTG uses a single double precision offset for each model.
+
+Linear designs or geospatial models are yet to be validated with OTG.  We are looking for feedback.
 
 
 ## Part 1 - Converting
@@ -85,6 +99,8 @@ open "http://b360.autodesk.com:3000/index.html"
 > You can check that OTG is loading in ForgeViewer, by looking for a websocket connections.  OTG currently uses multiple websockets to load mesh bits.
 
 # Further Reading
+
+
 
 Autodesk University 2018: [Creating Offline Workflows with ForgeViewer](https://www.autodesk.com/autodesk-university/class/Creating-Flexible-Offline-Workflows-Using-Autodesk-Forge-2018)
 
