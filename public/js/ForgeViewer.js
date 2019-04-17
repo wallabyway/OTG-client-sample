@@ -17,6 +17,7 @@
 /////////////////////////////////////////////////////////////////////
 
 var viewerApp;
+var _token;
 
 function launchViewer(urn) {
   console.log(`URN: ${urn}`);
@@ -24,7 +25,7 @@ function launchViewer(urn) {
   var options = {
     env: 'FluentProduction',
     api: 'fluent',
-    //useCookie: true, // is this neccessary ? partially working
+    //useCookie: true,  //optional for Chrome browser
     useCredentials: true,
     getAccessToken: getForgeToken
   };
@@ -57,8 +58,8 @@ function onDocumentLoadFailure(viewerErrorCode) {
 
 function onItemLoadSuccess(viewer, item) {
   // item loaded, any custom action?
-  //viewer.impl.setFPSTargets(18,24,30);
-  viewer.impl.setFPSTargets(12,20,24);
+  viewer.impl.setFPSTargets(30,30,30);
+  //viewer.impl.setFPSTargets(12,20,24);
   viewer.disableHighlight(true);
   viewer.autocam.shotParams.destinationPercent=2;
   viewer.autocam.shotParams.duration = 3;
@@ -73,6 +74,7 @@ function getForgeToken(callback) {
     url: '/api/forge/oauth/token',
     success: function (res) {
       console.log(`TOKEN: ${res.access_token}`);
+      _token = res.access_token;
       callback(res.access_token, res.expires_in)
     }
   });

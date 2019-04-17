@@ -10,6 +10,8 @@ This sample tells you how to trigger an SVF->OTG conversion, and then shows you 
 
 ## Part 1 - Converting
 
+UPDATE: added a 'paper plane' button.  Open an existing SVF design, then click 'paper plane' button, to trigger an OTG conversion.  Wait a few minutes, then try opening the file again. 
+
 Steps
 
 1. steal a BEARER token from A360 (run the nodejs server in part2 in the debug console after clicking on an design file)

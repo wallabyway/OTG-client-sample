@@ -16,6 +16,8 @@
 // UNINTERRUPTED OR ERROR FREE.
 /////////////////////////////////////////////////////////////////////
 
+var _urn, _projectid;
+
 $(document).ready(function () {
   // first, check if current visitor is signed in
   jQuery.ajax({
@@ -24,6 +26,7 @@ $(document).ready(function () {
       // yes, it is signed in...
       $('#signOut').show();
       $('#refreshHubs').show();
+      $('#convertOTG').show();
 
       // prepare sign out
       $('#signOut').click(function () {
@@ -39,6 +42,31 @@ $(document).ready(function () {
       $('#refreshHubs').click(function () {
         $('#userHubs').jstree(true).refresh();
       });
+
+      // and refresh button
+      $('#convertOTG').click(function () {
+
+        var body = {"urn": _urn,
+              "account_id":"https://developer.api.autodesk.com/project/v1/hubs",
+              "project_id":_projectid,
+              "force_conversion": true
+            };
+
+        fetch('https://otg.autodesk.com/modeldata',
+        {
+            headers: {
+              'Authorization': `Bearer ${_token}`,
+              'Content-Type': 'application/json',
+            },
+            method: "POST",
+            body: JSON.stringify(body)
+        })
+        .then(function(res){ console.log(res) })
+        .catch(function(res){ console.log(res) })
+
+
+      });
+
 
       // finally:
       prepareUserHubsTree();
@@ -111,8 +139,10 @@ function prepareUserHubsTree() {
   }).bind("activate_node.jstree", function (evt, data) {
     if (data != null && data.node != null && data.node.type == 'versions') {
       $("#forgeViewer").empty();
-      var urn = data.node.id;
-      launchViewer(urn);
+      _urn = data.node.id;
+      _projectid = data.node.parent.split('/')[6];
+      console.log(_projectid);
+      launchViewer(_urn);
     }
   });
 }
