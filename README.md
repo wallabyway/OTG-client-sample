@@ -28,6 +28,9 @@ UPDATE: added a 'paper plane' button.  Open an existing SVF design, then click '
 
 <img width="400" alt="convertbutton" src="https://user-images.githubusercontent.com/440241/56311024-ed8fda00-6101-11e9-9a22-eb205eedd5cf.png">
 
+If you get an empty tree-view, then try this...
+1. Log into A360, you may need to create a new account first: http://a360.autodesk.com
+2. If you have a BIM360 admin access, then you will need to connect BIM360 to your server (project auth access)... Read this blog post: https://fieldofviewblog.wordpress.com/2017/01/19/bim-360-activating-api-access-to-docs/
 
 Steps
 
