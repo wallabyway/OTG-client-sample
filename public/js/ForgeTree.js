@@ -16,17 +16,20 @@
 // UNINTERRUPTED OR ERROR FREE.
 /////////////////////////////////////////////////////////////////////
 
-var _urn, _projectid;
+var _urn, _projectid, _token;
 
 $(document).ready(function () {
   // first, check if current visitor is signed in
   jQuery.ajax({
     url: '/api/forge/oauth/token',
     success: function (res) {
+      _token = res.access_token;
+      console.log(`TOKEN: ${res.access_token}`);      
       // yes, it is signed in...
       $('#signOut').show();
       $('#refreshHubs').show();
       $('#convertOTG').show();
+      $('#statusOTG').show();
 
       // prepare sign out
       $('#signOut').click(function () {
@@ -67,6 +70,9 @@ $(document).ready(function () {
 
       });
 
+      // and refresh button
+      $('#statusOTG').click(function () {
+      });
 
       // finally:
       prepareUserHubsTree();
@@ -138,13 +144,39 @@ function prepareUserHubsTree() {
     "state": { "key": "autodeskHubs" }// key restore tree state
   }).bind("activate_node.jstree", function (evt, data) {
     if (data != null && data.node != null && data.node.type == 'versions') {
-      $("#forgeViewer").empty();
       _urn = data.node.id;
       _projectid = data.node.parent.split('/')[6];
-      console.log(_projectid);
-      launchViewer(_urn);
+      console.log(`ProjectID: ${_projectid}`);
+      console.log(`URN: ${_urn}`);
+
+      $("#forgeViewer").empty();
+      fetchOTGStatus();
     }
+  }).bind("dblclick.jstree", function (evt) {
+    launchViewer(_urn);
   });
+}
+
+function fetchOTGStatus() {
+    $("#statusOTG").text("...");
+    fetch(`https://otg.autodesk.com/modeldata/manifest/${_urn}`,
+    {
+        headers: {
+          'Authorization': `Bearer ${_token}`,
+          'Content-Type': 'application/json',
+        },
+        method: "GET",
+        mode: "cors",
+        credentials: "include",
+    })
+    .then(res => res.json()).then(json => {
+      console.log(json);
+      var status = json.children[0].otg_manifest || json.children[1].otg_manifest;
+      console.log(status);
+      $("#statusOTG").text( (status) ? `OTG:${status.progress}` : "SVF" );
+
+    })
+    .catch(function(res){ console.log(res) })
 }
 
 function showUser() {

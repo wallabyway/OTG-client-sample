@@ -25,9 +25,9 @@ function launchViewer(urn) {
   var options = {
     env: 'FluentProduction',
     api: 'fluent',
-    //useCookie: true,  //optional for Chrome browser
+    useCookie: true,  //optional for Chrome browser
     useCredentials: true,
-    getAccessToken: getForgeToken
+    accessToken: _token
   };
 
   var documentId = 'urn:' + urn;
@@ -73,8 +73,6 @@ function getForgeToken(callback) {
   jQuery.ajax({
     url: '/api/forge/oauth/token',
     success: function (res) {
-      console.log(`TOKEN: ${res.access_token}`);
-      _token = res.access_token;
       callback(res.access_token, res.expires_in)
     }
   });
