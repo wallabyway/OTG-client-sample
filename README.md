@@ -11,7 +11,14 @@ This sample tells you how to trigger an SVF->OTG conversion, and then shows you 
 #### Notes:
 Red Circle shows the "Status"
 1. click 'file' to select a file and get OTG conversion status
-2. Double click to open file
+2. Double click to open file'
+3. Click the &#9889; to start conversion on the selected file.  Click the file again to poll conversion progress
+
+#### what does STATUS mean?
+will show 'SVF' if the file is still in SVF format
+will show 'OTG: 44%' for 44% progress on conversion to OTG
+will show 'OTG: complete' if the file has been converted to OTG. Now try opening the file.  It should load much faster and you will see Web-socket traffic.
+
 
 
 ### OTG de-duplication:
@@ -27,11 +34,7 @@ Currently, OTG uses a single double precision offset for each model.
 Linear designs or geospatial models are yet to be validated with OTG.  We are looking for feedback.
 
 
-## Part 1 - Converting
-
-UPDATE: added a 'paper plane' button.  Open an existing SVF design, then click 'paper plane' button, to trigger an OTG conversion.  Wait a few minutes, then try opening the file again. 
-
-<img width="400" alt="convertbutton" src="https://user-images.githubusercontent.com/440241/56311024-ed8fda00-6101-11e9-9a22-eb205eedd5cf.png">
+## Part 1 - Converting using POSTMAN
 
 If you get an empty tree-view, then try this...
 1. Log into A360, you may need to create a new account first: http://a360.autodesk.com
@@ -39,15 +42,16 @@ If you get an empty tree-view, then try this...
 
 Steps
 
-1. steal a BEARER token from A360 (run the nodejs server in part2 in the debug console after clicking on an design file)
+1. steal a TOKEN from this nodejs sample app (see console log)
 
 Now inside POSTMAN...
 
 1. import the script (provided)
 4. feed the token into `{{OTG_TOKEN}}` POSTMAN variable
-5. find a URN SVF you want to convert and add it to the POSTMAN variable `{{OTG_URN}}` (again, use the node server and click on your 3D design file and look in chrome debug console)
+5. find a URN SVF you want to convert and add it to the POSTMAN variable `{{OTG_URN}}` (again, use the node server app and select a file and look for URN: xxx in the console logs)
 
-6. go to `POST job OTG` and add your project_id (taken from your hub, also found in the nodejs network log) put it into the header (see screenshot)
+6. go to `POST job OTG` and add your project_id (also taken from console log 'PROJECTID' in the sample nodejs app)
+
 <img alt="POSTjobOTG" src="https://user-images.githubusercontent.com/440241/54336971-c4ec6000-45ea-11e9-944e-b30cee2ccc6e.png">
 
 6. now, run the `POST job OTG` to trigger the SVF->OTG converter
