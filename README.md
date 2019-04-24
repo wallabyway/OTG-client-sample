@@ -15,9 +15,13 @@ Red Circle shows the "Status"
 3. Click the &#9889; to start conversion on the selected file.  Click the file again to poll conversion progress
 
 #### what does STATUS mean?
-will show 'SVF' if the file is still in SVF format
-will show 'OTG: 44%' for 44% progress on conversion to OTG
-will show 'OTG: complete' if the file has been converted to OTG. Now try opening the file.  It should load much faster and you will see Web-socket traffic.
+
+- will show 'SVF' if the file is still in SVF format
+- will show 'OTG: 44%' for 44% progress on conversion to OTG
+- will show 'OTG: complete' if the file has been converted to OTG. 
+
+Once 'OTG:complete', you can open the file by double clicking it.  This will open the OTG file in the standard forge viewer (with some minor changes to the [options variable](https://github.com/wallabyway/OTG-client-sample/blob/552c78b1fe8e1177f6694fd947a17fd189a8505b/public/js/ForgeViewer.js#L26-L29)
+).  It should load much faster and you will see Web-socket traffic.
 
 
 
@@ -81,6 +85,9 @@ now to check for progress...
  > Note, for BIM360 hosted files, this conversion process is automatically triggered when a file changes.
 
 ## Part 2 - Viewing
+
+You use the same Forge Viewer as before... but change the environment variable to 'fluent', [like this.](https://github.com/wallabyway/OTG-client-sample/blob/552c78b1fe8e1177f6694fd947a17fd189a8505b/public/js/ForgeViewer.js#L26-L29)
+
 
 > you'll need this to bypass the Autodesk white-list, for the time being (oddly enough, Chrome browsers allow `localhost:3000`, but safari doesn't )...
 
