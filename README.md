@@ -6,7 +6,12 @@
 
 This sample tells you how to trigger an SVF->OTG conversion, and then shows you how to view the OTG with ForgeViewer.  This repo is a fork of the [Learn Forge](http://learnforge.autodesk.io) nodejs viewhub tutorial.
 
-<img alt="OTG-viewer" src="https://user-images.githubusercontent.com/440241/54336099-4a224580-45e8-11e9-9691-88a060d38d11.png">
+![OTG-debug](https://user-images.githubusercontent.com/440241/56630579-ad02f580-6606-11e9-83e0-e213ff22ade0.png)
+
+#### Notes:
+Red Circle shows the "Status"
+1. click 'file' to select a file and get OTG conversion status
+2. Double click to open file
 
 
 ### OTG de-duplication:
