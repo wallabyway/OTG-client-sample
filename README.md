@@ -6,24 +6,8 @@
 
 This sample tells you how to trigger an SVF->OTG conversion, and then shows you how to view the OTG with ForgeViewer.  This repo is a fork of the [Learn Forge](http://learnforge.autodesk.io) nodejs viewhub tutorial.
 
-![OTG-debug](https://user-images.githubusercontent.com/440241/56630579-ad02f580-6606-11e9-83e0-e213ff22ade0.png)
 
-#### Notes:
-Red Circle shows the "Status"
-1. click 'file' to select a file and get OTG conversion status
-2. Double click to open file'
-3. Click the &#9889; to start conversion on the selected file.  Click the file again to poll conversion progress
-
-#### what does STATUS mean?
-
-- will show 'SVF' if the file is still in SVF format
-- will show 'OTG: 44%' for 44% progress on conversion to OTG
-- will show 'OTG: complete' if the file has been converted to OTG. 
-
-Once 'OTG:complete', you can open the file by double clicking it.  This will open the OTG file in the standard forge viewer (with some minor changes to the [options variable](https://github.com/wallabyway/OTG-client-sample/blob/552c78b1fe8e1177f6694fd947a17fd189a8505b/public/js/ForgeViewer.js#L26-L29)
-).  It should load much faster and you will see Web-socket traffic.
-
-
+## What is OTG?
 
 ### OTG de-duplication:
 OTG uses a de-duplication process of meshes.  So think of a wall as a cube.  And many walls are just a cube that is squished and rotated into place.   So imagine all walls of a building represented by a single cube with many transforms.   This saves storage space (data transfer).  BUT....
@@ -37,11 +21,42 @@ Currently, OTG uses a single double precision offset for each model.
 
 Linear designs or geospatial models are yet to be validated with OTG.  We are looking for feedback.
 
+### OTG viewer
+OTG uses the same Forge Viewer, as before... just point the viewer to the new environment variable to 'fluent', [like this.](https://github.com/wallabyway/OTG-client-sample/blob/552c78b1fe8e1177f6694fd947a17fd189a8505b/public/js/ForgeViewer.js#L26-L29)... and the viewer will use OTG data, instead of SVF.
+
+Here's what the node.js server / webpage looks like when it's running successfully...
+![OTG-debug](https://user-images.githubusercontent.com/440241/56630579-ad02f580-6606-11e9-83e0-e213ff22ade0.png)
 
 
-## Part 1 - Viewing
+## Part 1 - Using the webpage (once you've got the Node.js server up and running)
 
-You use the same Forge Viewer as before... but change the environment variable to 'fluent', [like this.](https://github.com/wallabyway/OTG-client-sample/blob/552c78b1fe8e1177f6694fd947a17fd189a8505b/public/js/ForgeViewer.js#L26-L29)
+#### Steps:
+> Red Circle shows the "Status"
+
+1. navigate the tree, to file your RVT file.
+2. single click on a version.  The browser will fetch the 'OTG status' and display in the status section (menu bar at the top).
+3. To open the file (whether it's still an SVF, or an OTG), just double click the version, to open file.
+4. To trigger an OTG conversion job, select the version, then click on the &#9889;
+5. You'll need to occasionally single-click the version, to update the 'conversion progress' 
+
+#### what does STATUS mean?
+
+- will show 'SVF' if the file is still in SVF format
+- will show 'OTG: 44%' for 44% progress on conversion to OTG
+- will show 'OTG: complete' if the file has been converted to OTG. 
+
+Once status shows 'OTG:complete', try opening the file, by double clicking it.  
+
+This will open the OTG file in the standard forge viewer (with some minor changes to the [options variable](https://github.com/wallabyway/OTG-client-sample/blob/552c78b1fe8e1177f6694fd947a17fd189a8505b/public/js/ForgeViewer.js#L26-L29)
+).
+To make sure it is loading OTG, look at the chrome debug network console, select 'WS', and look for web-sockets.  That's how OTG transfers mesh data.
+You should hopefully notice that, for large things, OTG loads much faster than SVF.
+If you are experiencing slow loading with OTG, and web-socket time-out error messages, try adding `?disableIndexedDb=true` as a URN parameter.
+
+
+
+## Part 2 - Starting the Node.js server
+
 
 
 > you'll need this to bypass the Autodesk white-list, for the time being (oddly enough, Chrome browsers allow `localhost:3000`, but safari doesn't )...
