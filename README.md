@@ -33,11 +33,11 @@ Here's what the node.js server / webpage looks like when it's running successful
 #### Steps:
 > Red Circle shows the "Status"
 
-1. navigate the tree, to file your RVT file.
+1. navigate the tree, to an .RVT file (or .NWD)
 2. single click on a version.  The browser will fetch the 'OTG status' and display in the status section (menu bar at the top).
-3. To open the file (whether it's still an SVF, or an OTG), just double click the version, to open file.
+3. To open the file in the Forge-Viewer on the right, just double click the version (this works for both SVF or OTG).
 4. To trigger an OTG conversion job, select the version, then click on the &#9889;
-5. You'll need to occasionally single-click the version, to update the 'conversion progress' 
+5. To check 'conversion progress', just occasionally single-click the version.
 
 #### what does STATUS mean?
 
@@ -45,18 +45,17 @@ Here's what the node.js server / webpage looks like when it's running successful
 - will show 'OTG: 44%' for 44% progress on conversion to OTG
 - will show 'OTG: complete' if the file has been converted to OTG. 
 
-Once status shows 'OTG:complete', try opening the file, by double clicking it.  
+Once 'status' shows 'OTG:complete', try opening the file, by double clicking it.  
 
 This will open the OTG file in the standard forge viewer (with some minor changes to the [options variable](https://github.com/wallabyway/OTG-client-sample/blob/552c78b1fe8e1177f6694fd947a17fd189a8505b/public/js/ForgeViewer.js#L26-L29)
 ).
 To make sure it is loading OTG, look at the chrome debug network console, select 'WS', and look for web-sockets.  That's how OTG transfers mesh data.
-You should hopefully notice that, for large things, OTG loads much faster than SVF.
-If you are experiencing slow loading with OTG, and web-socket time-out error messages, try adding `?disableIndexedDb=true` as a URN parameter.
+You should hopefully also notice that the file loads much faster.  That's because it's now loading OTG rather than SVF (more noticable for large things).
 
+If you are experiencing stalling during loading with OTG, check the console for web-socket time-out error messages. You can try adding `?disableIndexedDb=true` as a URN parameter, to see if that fixes the problem.
 
 
 ## Part 2 - Starting the Node.js server
-
 
 
 > you'll need this to bypass the Autodesk white-list, for the time being (oddly enough, Chrome browsers allow `localhost:3000`, but safari doesn't )...
@@ -91,29 +90,32 @@ open "http://b360.autodesk.com:3000/index.html"
 > You can check that OTG is loading in ForgeViewer, by looking for a websocket connections.  OTG currently uses multiple websockets to load mesh bits.
 
 
-## Part 2 - (optional) Converting using POSTMAN, instead of the 'convert' button
+## Troubleshooting
+
+### empty Tree-list
 
 If you get an empty tree-view, then try this...
 1. Log into A360, you may need to create a new account first: http://a360.autodesk.com
 2. If you have a BIM360 admin access, then you will need to connect BIM360 to your server (project auth access)... Read this blog post: https://fieldofviewblog.wordpress.com/2017/01/19/bim-360-activating-api-access-to-docs/
 
+### Converting using POSTMAN, instead of the 'convert' button
+
 Steps
 
-1. steal a TOKEN from this nodejs sample app (see console log)
+1. steal a bearer TOKEN from this nodejs sample app (see chrome console log)
 
 Now inside POSTMAN...
 
-1. import the script (provided)
-4. feed the token into `{{OTG_TOKEN}}` POSTMAN variable
-5. find a URN SVF you want to convert and add it to the POSTMAN variable `{{OTG_URN}}` (again, use the node server app and select a file and look for URN: xxx in the console logs)
-
-6. go to `POST job OTG` and add your project_id (also taken from console log 'PROJECTID' in the sample nodejs app)
+1. import the script (https://github.com/wallabyway/OTG-client-sample/blob/master/OTG-Service.postman_collection.json)
+4. in the POSTMAN variables, add the token into `{{OTG_TOKEN}}` 
+5. click on a file/version, and grab the URN and projectID from the console
+6. add URN to the POSTMAN variable `{{OTG_URN}}`
+7. add projectID to the POSTMAN variable `PROJECT_ID`
+7. go to `POST job OTG` and click 'send'
 
 <img alt="POSTjobOTG" src="https://user-images.githubusercontent.com/440241/54336971-c4ec6000-45ea-11e9-944e-b30cee2ccc6e.png">
 
-6. now, run the `POST job OTG` to trigger the SVF->OTG converter
-
-You'll get...
+You should hopefully get this json response...
 
 ```
 {
@@ -129,13 +131,13 @@ You'll get...
 
 now to check for progress...
 
-7. run `GET manifest` in POSTMAN, and in the JSON response, look for OTG `progress`
+7. send `GET manifest` in POSTMAN, and in the JSON response, do a search for `OTG-manifest` and sub item `progress`
 
 <img alt="GETmanifestOTG" src="https://user-images.githubusercontent.com/440241/54336970-c158d900-45ea-11e9-8100-d578eba1da42.png">
 
  - once `progress` reaches 100%, you're done !  The SVF has been converted to OTG.  
 
- > Note, for BIM360 hosted files, this conversion process is automatically triggered when a file changes.
+ > Note, for BIM360-design-collaboration hosted files, this conversion process is automatically triggered when a file changes.
 
 
 # Further Reading
@@ -143,6 +145,8 @@ now to check for progress...
 
 
 Autodesk University 2018: [Creating Offline Workflows with ForgeViewer](https://www.autodesk.com/autodesk-university/class/Creating-Flexible-Offline-Workflows-Using-Autodesk-Forge-2018)
+
+* See the SVF section, to understand how SVF works... There are some similarities with OTG worth noting...
 
 ![test](https://user-images.githubusercontent.com/440241/54336653-ded97300-45e9-11e9-8533-197b97460a39.jpg)
 
