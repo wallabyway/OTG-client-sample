@@ -38,7 +38,45 @@ Currently, OTG uses a single double precision offset for each model.
 Linear designs or geospatial models are yet to be validated with OTG.  We are looking for feedback.
 
 
-## Part 1 - Converting using POSTMAN
+
+## Part 1 - Viewing
+
+You use the same Forge Viewer as before... but change the environment variable to 'fluent', [like this.](https://github.com/wallabyway/OTG-client-sample/blob/552c78b1fe8e1177f6694fd947a17fd189a8505b/public/js/ForgeViewer.js#L26-L29)
+
+
+> you'll need this to bypass the Autodesk white-list, for the time being (oddly enough, Chrome browsers allow `localhost:3000`, but safari doesn't )...
+
+1. in your `/etc/HOSTS` file, add `127.0.0.1 b360.autodesk.com`
+
+
+2. create a quick `start.sh` script with your Forge App clientID and secret, like this:
+
+```
+export FORGE_CLIENT_ID=xxxx
+export FORGE_CLIENT_SECRET=xxxx
+#export FORGE_CALLBACK_URL=http://localhost:3000/api/forge/callback/oauth
+export FORGE_CALLBACK_URL=http://b360.autodesk.com:3000/api/forge/callback/oauth
+node start.js
+open "http://b360.autodesk.com:3000/index.html"
+```
+
+2. in your Forge Account, add the URL `http://b360.autodesk.com:3000/api/forge/callback/oauth` to your Forge App's callback.
+4. install node package stuff with `npm install`
+4. now run the script `sh ./start.sh`
+
+> Your node.js server will start and a browser should popup to your homepage.
+
+3. click login and sign in to your A360 account
+4. navigate to your SVF file
+5. open it, as normal.
+6. the OTG version should now load.  
+
+> That's it ! 
+
+> You can check that OTG is loading in ForgeViewer, by looking for a websocket connections.  OTG currently uses multiple websockets to load mesh bits.
+
+
+## Part 2 - (optional) Converting using POSTMAN, instead of the 'convert' button
 
 If you get an empty tree-view, then try this...
 1. Log into A360, you may need to create a new account first: http://a360.autodesk.com
@@ -84,41 +122,6 @@ now to check for progress...
 
  > Note, for BIM360 hosted files, this conversion process is automatically triggered when a file changes.
 
-## Part 2 - Viewing
-
-You use the same Forge Viewer as before... but change the environment variable to 'fluent', [like this.](https://github.com/wallabyway/OTG-client-sample/blob/552c78b1fe8e1177f6694fd947a17fd189a8505b/public/js/ForgeViewer.js#L26-L29)
-
-
-> you'll need this to bypass the Autodesk white-list, for the time being (oddly enough, Chrome browsers allow `localhost:3000`, but safari doesn't )...
-
-1. in your `/etc/HOSTS` file, add `127.0.0.1 b360.autodesk.com`
-
-
-2. create a quick `start.sh` script with your Forge App clientID and secret, like this:
-
-```
-export FORGE_CLIENT_ID=xxxx
-export FORGE_CLIENT_SECRET=xxxx
-#export FORGE_CALLBACK_URL=http://localhost:3000/api/forge/callback/oauth
-export FORGE_CALLBACK_URL=http://b360.autodesk.com:3000/api/forge/callback/oauth
-node start.js
-open "http://b360.autodesk.com:3000/index.html"
-```
-
-2. in your Forge Account, add the URL `http://b360.autodesk.com:3000/api/forge/callback/oauth` to your Forge App's callback.
-4. install node package stuff with `npm install`
-4. now run the script `sh ./start.sh`
-
-> Your node.js server will start and a browser should popup to your homepage.
-
-3. click login and sign in to your A360 account
-4. navigate to your SVF file
-5. open it, as normal.
-6. the OTG version should now load.  
-
-> That's it ! 
-
-> You can check that OTG is loading in ForgeViewer, by looking for a websocket connections.  OTG currently uses multiple websockets to load mesh bits.
 
 # Further Reading
 
