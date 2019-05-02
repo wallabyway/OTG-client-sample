@@ -140,6 +140,23 @@ now to check for progress...
  > Note, for BIM360-design-collaboration hosted files, this conversion process is automatically triggered when a file changes.
 
 
+## using a Forge Bucket (2-legged workflow)
+
+You can also use your .
+
+If you have your files on a standard forge-bucket (standard 2-legged workflow), then you can also convert and view OTG, here's how...
+
+First, gather your Forge ClientID, 2-legged Token and the URN you want to convert...
+
+In the "POST job OTG", request body, put your 'Forge ClientID' into the "account_id" value, remove the project_id completely, and set the {{OTG_URN}} with your URN value.  In the header authorization, change the OTG_TOKEN to your 2-legged token.  Now click the 'send' button to trigger the conversion (see screenshot)...
+
+![2-leggedPOST](https://user-images.githubusercontent.com/440241/57113194-58dbcd80-6cf8-11e9-8e7b-7af59840a381.png)
+
+That should work, and you should see the same JSON response as the 3-legged version above.
+
+Now, to get the status of the OTG conversion process, use your URN and 2-legged Token, and the replace it in the POSTMAN 'GET manifest request' header and parameters.  Click send, and you should see a JSON response similar to the 3-legged example above.  View the model, in the same way as the 3-legged example above.
+
+
 # Further Reading
 
 
