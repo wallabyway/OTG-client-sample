@@ -16,8 +16,7 @@
 // UNINTERRUPTED OR ERROR FREE.
 /////////////////////////////////////////////////////////////////////
 
-var viewerApp;
-var _token;
+var viewer;
 
 function launchViewer(urn) {
   console.log(`URN: ${urn}`);
@@ -31,49 +30,32 @@ function launchViewer(urn) {
   };
 
   var documentId = 'urn:' + urn;
-  Autodesk.Viewing.Initializer(options, function onInitialized() {
-    viewerApp = new Autodesk.Viewing.ViewingApplication('forgeViewer');
-    viewerApp.registerViewer(viewerApp.k3D, Autodesk.Viewing.Private.GuiViewer3D);
-    viewerApp.loadDocument(documentId, onDocumentLoadSuccess, onDocumentLoadFailure);
+
+  Autodesk.Viewing.Initializer(options, () => {
+    viewer = new Autodesk.Viewing.GuiViewer3D(document.getElementById('forgeViewer'));
+    viewer.start();
+    var documentId = 'urn:' + urn;
+    Autodesk.Viewing.Document.load(documentId, onDocumentLoadSuccess, onDocumentLoadFailure);
   });
+
 }
 
 function onDocumentLoadSuccess(doc) {
-  // We could still make use of Document.getSubItemsWithProperties()
-  // However, when using a ViewingApplication, we have access to the **bubble** attribute,
-  // which references the root node of a graph that wraps each object from the Manifest JSON.
-  var viewables = viewerApp.bubble.search({ 'type': 'geometry' });
-  if (viewables.length === 0) {
-    console.error('Document contains no viewables.');
-    return;
-  }
-
-  // Choose any of the avialble viewables
-  viewerApp.selectItem(viewables[0].data, onItemLoadSuccess, onItemLoadFail);
+  var viewables = doc.getRoot().getDefaultGeometry();
+  viewer.loadDocumentNode(doc, viewables).then(i => {
+    viewer.impl.setFPSTargets(12,20,24);
+    viewer.disableHighlight(true);
+    viewer.autocam.shotParams.destinationPercent=2;
+    viewer.autocam.shotParams.duration = 3;
+  });
 }
 
 function onDocumentLoadFailure(viewerErrorCode) {
   console.error('onDocumentLoadFailure() - errorCode:' + viewerErrorCode);
 }
 
-function onItemLoadSuccess(viewer, item) {
-  // item loaded, any custom action?
-  viewer.impl.setFPSTargets(30,30,30);
-  //viewer.impl.setFPSTargets(12,20,24);
-  viewer.disableHighlight(true);
-  viewer.autocam.shotParams.destinationPercent=2;
-  viewer.autocam.shotParams.duration = 3;
-}
 
 function onItemLoadFail(errorCode) {
   console.error('onItemLoadFail() - errorCode:' + errorCode);
 }
 
-function getForgeToken(callback) {
-  jQuery.ajax({
-    url: '/api/forge/oauth/token',
-    success: function (res) {
-      callback(res.access_token, res.expires_in)
-    }
-  });
-}
