@@ -1,10 +1,21 @@
 # Load OTG with ForgeViewer sample
 
+LIVE: https://otg-bim.herokuapp.com/index?disableIndexedDb=true
 
+ps. This repo is an OTG fork of the [Learn Forge](http://learnforge.autodesk.io) nodejs viewhub tutorial.
+UPDATES: upgraded to v7 viewer and now hosted on Heroku.  OTG NOW works WITHOUT needing to be whitelisted.
 
 ## Intro
+This webpage allows customers, with Revit/Navis files, sitting on A360, BIM360, FusionTeam,etc, to evaluate these files using the new OTG file format, instead of the current SVF format.  
 
-This sample tells you how to trigger an SVF->OTG conversion, and then shows you how to view the OTG with ForgeViewer.  This repo is a fork of the [Learn Forge](http://learnforge.autodesk.io) nodejs viewhub tutorial.
+If you find...
+
+1. Forge Viewer crashes when trying to load large Navis files (200MB+)
+2. when you move the camera slightly and Forge Viewer's progress-bar flickers like crazy, taking 'forever' to load a large design
+3. Time to first pixel is really slow (greater than 6 minutes, when you were expecting less than 30seconds)
+
+.. then OTG is for you !
+
 
 
 ## What is OTG?
@@ -33,11 +44,12 @@ Here's what the node.js server / webpage looks like when it's running successful
 #### Steps:
 > Red Circle shows the "Status"
 
-1. navigate the tree, to an .RVT file (or .NWD)
-2. single click on a version.  The browser will fetch the 'OTG status' and display in the status section (menu bar at the top).
-3. To open the file in the Forge-Viewer on the right, just double click the version (this works for both SVF or OTG).
-4. To trigger an OTG conversion job, select the version, then click on the &#9889;
-5. To check 'conversion progress', just occasionally single-click the version.
+1. login and navigate into the hubs/projects/folder/file/version in the tree, until you find your Revit/Navis file you want to evaluate.
+
+Now, to convert it...
+2. single click on a version.
+3. click on the &#9889; to start the OTG conversion
+4. now click on the revit/navis file 'version' again, and look at the 'OTG:progress 0%' in the upper menu bar.
 
 #### what does STATUS mean?
 
@@ -49,6 +61,7 @@ Once 'status' shows 'OTG:complete', try opening the file, by double clicking it.
 
 This will open the OTG file in the standard forge viewer (with some minor changes to the [options variable](https://github.com/wallabyway/OTG-client-sample/blob/552c78b1fe8e1177f6694fd947a17fd189a8505b/public/js/ForgeViewer.js#L26-L29)
 ).
+
 To make sure it is loading OTG, look at the chrome debug network console, select 'WS', and look for web-sockets.  That's how OTG transfers mesh data.
 You should hopefully also notice that the file loads much faster.  That's because it's now loading OTG rather than SVF (more noticable for large things).
 
@@ -142,8 +155,6 @@ now to check for progress...
 
 ## using a Forge Bucket (2-legged workflow)
 
-You can also use your .
-
 If you have your files on a standard forge-bucket (standard 2-legged workflow), then you can also convert and view OTG, here's how...
 
 First, gather your Forge ClientID, 2-legged Token and the URN you want to convert...
@@ -155,17 +166,6 @@ In the "POST job OTG", request body, put your 'Forge ClientID' into the "account
 That should work, and you should see the same JSON response as the 3-legged version above.
 
 Now, to get the status of the OTG conversion process, use your URN and 2-legged Token, and the replace it in the POSTMAN 'GET manifest request' header and parameters.  Click send, and you should see a JSON response similar to the 3-legged example above.  View the model, in the same way as the 3-legged example above.
-
-
-# Further Reading
-
-
-
-Autodesk University 2018: [Creating Offline Workflows with ForgeViewer](https://www.autodesk.com/autodesk-university/class/Creating-Flexible-Offline-Workflows-Using-Autodesk-Forge-2018)
-
-* See the SVF section, to understand how SVF works... There are some similarities with OTG worth noting...
-
-![test](https://user-images.githubusercontent.com/440241/54336653-ded97300-45e9-11e9-8533-197b97460a39.jpg)
 
 
 Documentation:
