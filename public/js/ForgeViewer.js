@@ -24,7 +24,7 @@ function launchViewer(urn) {
   var options = {
     env: 'FluentProduction',
     api: 'fluent',
-    useCookie: true,  //optional for Chrome browser
+    useCookie: false,  //optional for Chrome browser
     useCredentials: true,
     accessToken: _token
   };
