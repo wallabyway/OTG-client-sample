@@ -1,6 +1,6 @@
 # Load OTG with ForgeViewer sample
 
-LIVE: https://otg-bim.herokuapp.com/index?disableIndexedDb=true
+LIVE: https://otg-bim.herokuapp.com/?disableIndexedDb=true
 
 ps. This repo is an OTG fork of the [Learn Forge](http://learnforge.autodesk.io) nodejs viewhub tutorial.
 UPDATES: upgraded to v7 viewer and now hosted on Heroku.  OTG NOW works WITHOUT needing to be whitelisted.
