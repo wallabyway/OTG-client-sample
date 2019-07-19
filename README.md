@@ -17,7 +17,6 @@ If you find...
 .. then OTG is for you !
 
 
-
 ## What is OTG?
 
 ### OTG de-duplication:
@@ -44,12 +43,12 @@ Here's what the node.js server / webpage looks like when it's running successful
 #### Steps:
 > Red Circle shows the "Status"
 
-1. login and navigate into the hubs/projects/folder/file/version in the tree, until you find your Revit/Navis file you want to evaluate.
+1. Login and navigate into the hubs/projects/folder/file/version in the tree, until you find your Revit/Navis file you want to evaluate.
 
 Now, to convert it...
-2. single click on a version.
-3. click on the &#9889; to start the OTG conversion
-4. now click on the revit/navis file 'version' again, and look at the 'OTG:progress 0%' in the upper menu bar.
+2. Single click on a version.
+3. Click on the &#9889; to start the OTG conversion.
+4. Now click on the revit/navis file 'version' again, and look at the 'OTG:progress 0%' in the upper menu bar.
 
 #### what does STATUS mean?
 
@@ -71,32 +70,26 @@ If you are experiencing stalling during loading with OTG, check the console for 
 ## Part 2 - Starting the Node.js server
 
 
-> you'll need this to bypass the Autodesk white-list, for the time being (oddly enough, Chrome browsers allow `localhost:3000`, but safari doesn't )...
-
-1. in your `/etc/HOSTS` file, add `127.0.0.1 b360.autodesk.com`
-
-
-2. create a quick `start.sh` script with your Forge App clientID and secret, like this:
+1. Create a quick `start.sh` script with your Forge App clientID and secret, like this:
 
 ```
 export FORGE_CLIENT_ID=xxxx
-export FORGE_CLIENT_SECRET=xxxx
-#export FORGE_CALLBACK_URL=http://localhost:3000/api/forge/callback/oauth
-export FORGE_CALLBACK_URL=http://b360.autodesk.com:3000/api/forge/callback/oauth
+export FORGE_CLIENT_SECRET=xxxxxxxx
+export FORGE_CALLBACK_URL=http://localhost:3000/api/forge/callback/oauth
+open "http://localhost:3000/index.html"
 node start.js
-open "http://b360.autodesk.com:3000/index.html"
 ```
 
-2. in your Forge Account, add the URL `http://b360.autodesk.com:3000/api/forge/callback/oauth` to your Forge App's callback.
-4. install node package stuff with `npm install`
-4. now run the script `sh ./start.sh`
+2. In your Forge Account, add the URL `http://localhost:3000/api/forge/callback/oauth` to your Forge App's callback.
+3. Install all the node packages with `npm install`
+4. Run the script `sh ./start.sh`
 
 > Your node.js server will start and a browser should popup to your homepage.
 
-3. click login and sign in to your A360 account
-4. navigate to your SVF file
-5. open it, as normal.
-6. the OTG version should now load.  
+5. Click login and sign in to your A360 account
+6. Navigate to your SVF file
+7. Open it, as normal.
+8. The OTG version should now load.  
 
 > That's it ! 
 
