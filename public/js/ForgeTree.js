@@ -50,7 +50,6 @@ $(document).ready(function () {
       $('#convertOTG').click(function () {
 
         var body = {"urn": _urn,
-              "account_id":"https://developer.api.autodesk.com/project/v1/hubs",
               "project_id":_projectid,
               "force_conversion": true
             };
