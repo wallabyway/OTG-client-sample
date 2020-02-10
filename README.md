@@ -15,7 +15,7 @@ If you find...
 3. Time to first pixel is really slow (greater than 6 minutes, when you were expecting less than 30seconds)
 4. You need something that is more compact than the SVF format
 5. You need stable object ID's across versions of the model(s).
-6. Wider adoption of OTG in Forge API is coming. ie. GDPR complient services (ETA April)
+6. Wider adoption of OTG in Forge API is coming. ie. GDPR complient services (ETA April 2020)
 
 .. then OTG is for you !
 
