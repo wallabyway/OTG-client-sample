@@ -13,7 +13,8 @@ If you find...
 1. Forge Viewer crashes when trying to load large Navis files (200MB+)
 2. when you move the camera slightly and Forge Viewer's progress-bar flickers like crazy, taking 'forever' to load a large design
 3. Time to first pixel is really slow (greater than 6 minutes, when you were expecting less than 30seconds)
-
+4. You need something that is more compact than the SVF format
+5. You need stable object ID's across versions of the model(s).
 .. then OTG is for you !
 
 
