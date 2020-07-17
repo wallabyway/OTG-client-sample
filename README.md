@@ -37,9 +37,9 @@ BODY:
        }
 ```
 
-| notice the type is `svf2` and not `svf`.
-| region can also be `eu` for europe region (and soon `au` for apac region).
-| this will return a 'success' json.  check progress using `GET manifest` as normal
+> - notice the type is `svf2` and not `svf`.
+> - region can also be `eu` for europe region (and soon `au` for apac region).
+> - this will return a 'success' json.  check progress using `GET manifest` as normal
 
 ### To view:
 
