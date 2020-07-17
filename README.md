@@ -6,9 +6,14 @@ UPDATE (2-legged): Forge Derivative service now provides SVF2 conversion.
 UPDATE (3-legged): BIM360 now automatically converts all assets to both SVF and SVF2, on every upload.
 
 ### To convert:
+full details: https://forge.autodesk.com/en/docs/model-derivative/v2/tutorials/translate-to-obj/task3-translate-source-file/
 
 1. Upload your RVT/NWD file(s) to a Forge Bucket, as normal
 2. use the following `POST job` request with body:
+
+POST https://developer.api.autodesk.com/modelderivative/v2/designdata/job
+
+BODY:
 
 ```
 {
@@ -50,6 +55,8 @@ var options = {
     // ... remember to add your accessToken stuff here too
   };
 ```
+
+example here: [full source code](https://github.com/wallabyway/OTG-client-sample/blob/552c78b1fe8e1177f6694fd947a17fd189a8505b/public/js/ForgeViewer.js#L26-L29)
 
 -------------
 
