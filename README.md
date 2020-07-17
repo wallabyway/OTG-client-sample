@@ -1,9 +1,59 @@
 # Load OTG with ForgeViewer sample
 
-LIVE: https://otg-bim.herokuapp.com/?disableIndexedDb=true
+OTG is now called 'SVF2'
 
-ps. This repo is an OTG fork of the [Learn Forge](http://learnforge.autodesk.io) nodejs viewhub tutorial.
-UPDATES: upgraded to v7 viewer and now hosted on Heroku.  OTG NOW works WITHOUT needing to be whitelisted.
+UPDATE (2-legged): Forge Derivative service now provides SVF2 conversion.
+UPDATE (3-legged): BIM360 now automatically converts all assets to both SVF and SVF2, on every upload.
+
+### To convert:
+
+1. Upload your RVT/NWD file(s) to a Forge Bucket, as normal
+2. use the following `POST job` request with body:
+
+```
+{
+         "input": {
+           "urn": "{{Urn}}"
+         },
+         "output": {
+           "destination": {
+             "region": "us"
+           },
+           "formats": [
+             {
+               "type": "svf2",
+               "views": [
+                 "2d",
+                 "3d"
+               ]
+             }
+           ]
+         }
+       }
+```
+
+| notice the type is `svf2` and not `svf`.
+| region can also be `eu` for europe region (and soon `au` for apac region).
+| this will return a 'success' json.  check progress using `GET manifest` as normal
+
+### To view:
+
+1. point ForgeViewer to your URN as normal
+2. make sure the `options` have the following environment set:
+
+```
+var options = {
+    env: 'FluentProduction',
+    api: 'fluent',
+    useCookie: true,  //optional for Chrome browser
+    useCredentials: true,
+    // ... remember to add your accessToken stuff here too
+  };
+```
+
+-------------
+
+
 
 ## Intro
 This webpage allows customers, with Revit/Navis files, sitting on A360, BIM360, FusionTeam,etc, to evaluate these files using the new OTG file format, instead of the current SVF format.  
@@ -39,6 +89,9 @@ OTG uses the same Forge Viewer, as before... just point the viewer to the new en
 
 Here's what the node.js server / webpage looks like when it's running successfully...
 ![OTG-debug](https://user-images.githubusercontent.com/440241/56630579-ad02f580-6606-11e9-83e0-e213ff22ade0.png)
+
+
+LIVE 3-legged testing: https://otg-bim.herokuapp.com/?disableIndexedDb=true
 
 
 ## Part 1 - Using the webpage (once you've got the Node.js server up and running)
