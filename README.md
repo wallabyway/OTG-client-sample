@@ -58,9 +58,15 @@ var options = {
 
 example here: [full source code](https://github.com/wallabyway/OTG-client-sample/blob/552c78b1fe8e1177f6694fd947a17fd189a8505b/public/js/ForgeViewer.js#L26-L29)
 
+## DBIds
+When opening a model in OTG format is there any way to look up properties on the model via the old svf dbId ?
+Yes, use the remap function which has the mapping from old SVF/F2D to OTG
+
+> model.remapDbId(x) converts from SVF/F2D to OTG.
+
 -------------
 
-
+ 
 
 ## Intro
 This webpage allows customers, with Revit/Navis files, sitting on A360, BIM360, FusionTeam,etc, to evaluate these files using the new OTG file format, instead of the current SVF format.  
