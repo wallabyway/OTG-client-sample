@@ -48,11 +48,11 @@ BODY:
 
 ```
 var options = {
-    env: 'FluentProduction',
-    api: 'fluent',
-    useCookie: true,  //optional for Chrome browser
-    useCredentials: true,
+    env: 'MD20DevUS',
+    api: 'D3S',
     // ... remember to add your accessToken stuff here too
+    // accessToken: "ek123...
+    // getAccessToken: function( cb ) { ...
   };
 ```
 
