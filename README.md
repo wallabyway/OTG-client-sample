@@ -48,7 +48,7 @@ BODY:
 
 ```
 var options = {
-    env: 'MD20DevUS',
+    env: 'MD20ProdUS',
     api: 'D3S',
     // ... remember to add your accessToken stuff here too
     // accessToken: "ek123...
